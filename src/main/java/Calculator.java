@@ -4,74 +4,69 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Calculator {
-    static ScriptEngineManager mgr = new ScriptEngineManager();
-    static ScriptEngine engine = mgr.getEngineByName("JavaScript");
+    private static final ScriptEngineManager MANAGER = new ScriptEngineManager();
+    private static final ScriptEngine ENGINE = MANAGER.getEngineByName("JavaScript");
 
-    private List<String> queries;
-    private List<String[]> splitedQueries;
-
-    public Calculator(List<String> queries) {
-        this.queries = queries;
-        this.splitedQueries = sortQueries(queries);
-    }
-
-    public String execute() {
+    public static int execute(List<String> queries) {
+        List<String[]> splitedQueries = splitQueries(queries);
         try {
-            while(splitedQueries.size() >= 2){
+            while (splitedQueries.size() >= 2) {
                 StringBuilder s = new StringBuilder();
 
-                String[] str0 = splitedQueries.get(0);
-                s.append(str0[0]);
-                s.append(str0[1]);
+                String[] operator = splitedQueries.get(0);
+                s.append(operator[0]);
+                s.append(operator[1]);
 
-                String[] str1 = splitedQueries.get(1);
-                s.append(str1[0]);
-                s.append(str1[1]);
+                String[] number = splitedQueries.get(1);
+                s.append(number[0]);
+                s.append(number[1]);
 
-                String[] str = {"", engine.eval(s.toString()).toString()};
-                splitedQueries.set(0,str);
+                String[] str = {"", ENGINE.eval(s.toString()).toString()};
+                splitedQueries.set(0, str);
                 splitedQueries.remove(1);
             }
-            return splitedQueries.get(0)[1];
+            return Integer.parseInt(splitedQueries.get(0)[1]);
         } catch (Exception e) {
-//            e.printStackTrace();
-            return "wrong inputs";
+            e.printStackTrace();
+            throw new IllegalArgumentException("Wrong input");
         }
     }
 
-    private  String createOperation(List<String[]> splitedQueries) {
-        StringBuilder s = new StringBuilder();
-        for (String[] str : splitedQueries) {
-            s.append(str[0]);
-            s.append(str[1]);
-        }
-        return s.toString();
-    }
-
-    private  List<String[]> sortQueries(List<String> queries) {
+    private static List<String[]> splitQueries(List<String> queries) {
         List<String[]> splitedQueries = new ArrayList<>();
 
         for (String s : queries) {
             String[] splited = s.split("\\s+");
+            splited[0] = transformStringToOperator(splited[0]);
             splitedQueries.add(splited);
         }
 
-
-        for (String[] s : splitedQueries) {
-            if (s[0].equals("add"))
-                s[0] = "+";
-            if (s[0].equals("subtract"))
-                s[0] = "-";
-            if (s[0].equals("multiply"))
-                s[0] = "*";
-            if (s[0].equals("divide"))
-                s[0] = "/";
-            if (s[0].equals("apply")) {
-                s[0] = "";
-
-            }
-        }
         return splitedQueries;
+    }
+
+    private static String transformStringToOperator(String string) {
+        String operator;
+        switch (string) {
+            case "add":
+                operator = "+";
+                break;
+            case "subtract":
+                operator = "-";
+                break;
+            case "multiply":
+                operator = "*";
+                break;
+            case "divide":
+                operator = "/";
+                break;
+            case "apply":
+                operator = "";
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid operator: " + string);
+        }
+
+        return operator;
     }
 
 }
