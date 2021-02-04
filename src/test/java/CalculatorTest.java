@@ -1,14 +1,17 @@
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
-class CalculatorTest {
 
-    @Test
-    void execute_WrongInput_WrongInputReturned() { // use camelcase
+public class CalculatorTest {
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionForWrongNumber() {
+        // given
         List<String> list = new ArrayList<>();
         list.add("apply 3");
         list.add("add g");
@@ -16,44 +19,49 @@ class CalculatorTest {
         list.add("add 12");
         list.add("divide 7");
 
-        Calculator calculator = new Calculator(list);
-        String result = calculator.execute();
-        assertSame("wrong inputs", result);
-
+        // when & then exception is thrown
+        Calculator.execute(list);
     }
 
-    @Test
-    void execute_EmptyList_WrongInputReturned() {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionForEmptyList() {
+        // given
         List<String> list = new ArrayList<>();
 
-        Calculator calculator = new Calculator(list);
-        String result = calculator.execute();
-        assertSame("wrong inputs", result);
-
+        // when & then exception is thrown
+        Calculator.execute(list);
     }
 
     @Test
-    void execute_DividedByZero_InfinityReturned() {
-        List<String> list = new ArrayList<>();
-        list.add("apply 2");
-        list.add("divide 0");
-        Calculator calculator = new Calculator(list);
-        String result = calculator.execute();
-        assertSame("Infinity", result);
+    public void shouldCalculateCorrectInput() {
 
-    }
-
-    @Test
-    void execute_WrongMathematicalOrderInputCorrect_Passed() {
+        // given
         List<String> list = new ArrayList<>();
         list.add("apply 3");
         list.add("add 3");
         list.add("multiply 3");
-        Calculator calculator = new Calculator(list);
-        String result = calculator.execute();
-        assertEquals(18, Integer.valueOf(result));
 
+        // when
+        int result = Calculator.execute(list);
+
+        // then
+        assertEquals(18, result);
     }
 
+    @Test
+    public void shouldCalculateCorrectInputWithAllOperators() {
 
+        // given
+        List<String> list = new ArrayList<>();
+        list.add("apply 3");
+        list.add("add 3");
+        list.add("multiply 3");
+        list.add("divide 2");
+
+        // when
+        int result = Calculator.execute(list);
+
+        // then
+        assertEquals(9, result);
+    }
 }

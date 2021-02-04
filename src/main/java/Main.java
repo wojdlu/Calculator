@@ -6,15 +6,15 @@ import java.util.List;
 
 public class Main {
 
-    static String path = "input.txt";
+    private static String path = "input.txt";
 
     public static void main(String[] args) {
 
         FileReader fileReader = new FileReader();
 
         List<String> queries = fileReader.readLines(path);
-        Calculator calculator = new Calculator(queries);
-        String result = calculator.execute();
+        Calculator calculator = new Calculator();
+        int result = calculator.execute(queries);
         System.out.println(result);
 
     }
