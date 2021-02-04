@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CalculatorTest {
 
     @Test
-    void execute_WrongInput_WrongInputReturned() {
+    void execute_WrongInput_WrongInputReturned() { // use camelcase
         List<String> list = new ArrayList<>();
         list.add("apply 3");
         list.add("add g");
