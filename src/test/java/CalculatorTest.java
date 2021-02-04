@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CalculatorTest {
 
     @Test
-    void execute_WrongInput_WrongInputReturned(){
+    void execute_WrongInput_WrongInputReturned() {
         List<String> list = new ArrayList<>();
         list.add("apply 3");
         list.add("add g");
@@ -23,7 +23,7 @@ class CalculatorTest {
     }
 
     @Test
-    void execute_EmptyList_WrongInputReturned(){
+    void execute_EmptyList_WrongInputReturned() {
         List<String> list = new ArrayList<>();
 
         Calculator calculator = new Calculator(list);
@@ -33,7 +33,7 @@ class CalculatorTest {
     }
 
     @Test
-    void execute_DividedByZero_InfinityReturned(){
+    void execute_DividedByZero_InfinityReturned() {
         List<String> list = new ArrayList<>();
         list.add("apply 2");
         list.add("divide 0");
@@ -43,6 +43,17 @@ class CalculatorTest {
 
     }
 
+    @Test
+    void execute_WrongMathematicalOrderInputCorrect_Passed() {
+        List<String> list = new ArrayList<>();
+        list.add("apply 3");
+        list.add("add 3");
+        list.add("multiply 3");
+        Calculator calculator = new Calculator(list);
+        String result = calculator.execute();
+        assertEquals(18, Integer.valueOf(result));
+
+    }
 
 
 }

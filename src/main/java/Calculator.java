@@ -34,7 +34,7 @@ public class Calculator {
             }
             return splitedQueries.get(0)[1];
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return "wrong inputs";
         }
     }
