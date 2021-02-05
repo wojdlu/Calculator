@@ -42,10 +42,10 @@ public class CalculatorTest {
         list.add("multiply 3");
 
         // when
-        int result = Calculator.execute(list);
+        double result = Calculator.execute(list);
 
         // then
-        assertEquals(18, result);
+        assertEquals(18.0, result,0.001);
     }
 
     @Test
@@ -59,9 +59,22 @@ public class CalculatorTest {
         list.add("divide 2");
 
         // when
-        int result = Calculator.execute(list);
+        double result = Calculator.execute(list);
 
         // then
-        assertEquals(9, result);
+        assertEquals(9.0,result,0.001);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionForIllegalOperator() {
+        // given
+        List<String> list = new ArrayList<>();
+        list.add("apply 3");
+        list.add("ad 3");
+        list.add("multiply 3");
+        list.add("divide 2");
+
+        // when & then exception is thrown
+        Calculator.execute(list);
     }
 }

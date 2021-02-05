@@ -7,7 +7,11 @@ public class Calculator {
     private static final ScriptEngineManager MANAGER = new ScriptEngineManager();
     private static final ScriptEngine ENGINE = MANAGER.getEngineByName("JavaScript");
 
-    public static int execute(List<String> queries) {
+    /**
+     * @param queries list of instructions for the calculator
+     * @return the result of the operation
+     */
+    public static double execute(List<String> queries) {
         List<String[]> splitedQueries = splitQueries(queries);
         try {
             while (splitedQueries.size() >= 2) {
@@ -25,7 +29,7 @@ public class Calculator {
                 splitedQueries.set(0, str);
                 splitedQueries.remove(1);
             }
-            return Integer.parseInt(splitedQueries.get(0)[1]);
+            return Double.parseDouble(splitedQueries.get(0)[1]);
         } catch (Exception e) {
             e.printStackTrace();
             throw new IllegalArgumentException("Wrong input");

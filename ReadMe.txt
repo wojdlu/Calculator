@@ -1,5 +1,5 @@
 Instructions should be typed in the file "input.txt"
-for the program to run properly, the path to this file should be saved as a variable in the Main class
+for the program to run properly, the path to "input.txt" file should be saved as a variable in the Main class
 the program adopts five types of actions:
 divide
 multiply
